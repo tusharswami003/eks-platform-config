@@ -5,6 +5,7 @@ metadata:
 
 spec:
   replicas: 2
+  serviceAccountName: tushar-web
 
   selector:
     matchLabels:
