@@ -6,3 +6,8 @@ resources:
   - service.yaml
   - ingress.yaml
   - serviceaccount.yaml
+
+configMapGenerator:
+  - name: tushar-web-release
+    envs:
+      - release.env

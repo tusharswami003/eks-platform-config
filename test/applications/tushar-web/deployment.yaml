@@ -26,8 +26,12 @@ spec:
           args:
             - s3
             - cp
-            - s3://devops-racer/artifacts/latest.zip
+            - s3://devops-racer/artifacts/$(ARTIFACT_NAME)
             - /artifacts/racer.zip
+
+          envFrom:
+            - configMapRef:
+                name: tushar-web-release
 
           env:
             - name: AWS_DEFAULT_REGION
