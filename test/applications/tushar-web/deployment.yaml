@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
+
 metadata:
   name: tushar-web
 
 spec:
   replicas: 2
-  serviceAccountName: tushar-web
 
   selector:
     matchLabels:
@@ -17,12 +17,63 @@ spec:
         app: tushar-web
 
     spec:
+      serviceAccountName: tushar-web
+
+      initContainers:
+        - name: download-racer
+          image: public.ecr.aws/aws-cli/aws-cli:2.37.9
+
+          args:
+            - s3
+            - cp
+            - s3://devops-racer/artifacts/latest.zip
+            - /artifacts/racer.zip
+
+          env:
+            - name: AWS_DEFAULT_REGION
+              value: ap-south-1
+
+          volumeMounts:
+            - name: artifact
+              mountPath: /artifacts
+
+        # --------------------------------------------------
+        # INIT CONTAINER 2
+        # Extract ZIP into nginx web-content volume
+        # --------------------------------------------------
+        - name: extract-racer
+          image: alpine:3.20
+
+          command:
+            - /bin/sh
+            - -c
+
+          args:
+            - |
+              set -e
+              apk add --no-cache unzip
+              echo "Extracting Racer artifact..."
+              unzip -o /artifacts/racer.zip -d /web
+              echo "Extracted files:"
+              ls -la /web
+
+          volumeMounts:
+            - name: artifact
+              mountPath: /artifacts
+
+            - name: web-content
+              mountPath: /web
+
       containers:
         - name: tushar-web
           image: nginx:alpine
 
           ports:
             - containerPort: 80
+
+          volumeMounts:
+            - name: web-content
+              mountPath: /usr/share/nginx/html
 
           resources:
             requests:
@@ -31,3 +82,10 @@ spec:
             limits:
               cpu: 200m
               memory: 128Mi
+
+      volumes:
+        - name: artifact
+          emptyDir: {}
+
+        - name: web-content
+          emptyDir: {}
