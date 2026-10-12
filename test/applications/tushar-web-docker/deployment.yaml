@@ -33,4 +33,4 @@ spec:
               memory: 64Mi
             limits:
               cpu: 250m
-              memory: 128Mis
+              memory: 128Mi
