@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tushar-web-docker
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/tusharswami003/eks-platform-config.git
+    targetRevision: main
+    path: test/applications/tushar-web-docker
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: tushar-web-docker
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

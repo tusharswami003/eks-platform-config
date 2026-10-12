@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: tushar-web-docker
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+
+images:
+  - name: devops-racer
+    newName: 190944421381.dkr.ecr.ap-south-1.amazonaws.com/devops-racer
+    newTag: "db2e242bb95811269d4b07273183a48440628b51"
