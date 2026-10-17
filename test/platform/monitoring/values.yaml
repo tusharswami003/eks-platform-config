@@ -52,6 +52,9 @@ alertmanager:
   enabled: true
 
   alertmanagerSpec:
+    useExistingSecret: true
+    configSecret: alertmanager-ses-smtp
+
     resources:
       requests:
         cpu: 25m
