@@ -1,0 +1,26 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: ses-delivery-test
+  namespace: monitoring
+  labels:
+    release: monitoring
+
+spec:
+  groups:
+    - name: ses-delivery-test
+      rules:
+        - alert: SESDeliveryTest
+          expr: vector(1) == 1
+          for: 1m
+
+          labels:
+            severity: warning
+            project: tushar
+            environment: test
+
+          annotations:
+            summary: "Tushar EKS: SES email delivery test"
+            description: >-
+              This is a controlled monitoring test.
+              No application or node failure has occurred.
