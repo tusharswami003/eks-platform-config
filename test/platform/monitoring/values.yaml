@@ -63,6 +63,7 @@ alertmanager:
 kubeStateMetrics:
   enabled: true
 
+kube-state-metrics:
   resources:
     requests:
       cpu: 25m
@@ -74,6 +75,7 @@ kubeStateMetrics:
 nodeExporter:
   enabled: true
 
+prometheus-node-exporter:
   resources:
     requests:
       cpu: 25m
