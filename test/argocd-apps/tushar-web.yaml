@@ -3,7 +3,9 @@ kind: Application
 metadata:
   name: tushar-web
   namespace: argocd
-
+  labels:
+    teardown.tushar.dev/environment: test
+    teardown.tushar.dev/phase: workloads
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 
@@ -20,6 +22,11 @@ spec:
     namespace: tushar-web
 
   syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        teardown.tushar.dev/environment: test
+        teardown.tushar.dev/disposable: "true"
+
     automated:
       prune: true
       selfHeal: true

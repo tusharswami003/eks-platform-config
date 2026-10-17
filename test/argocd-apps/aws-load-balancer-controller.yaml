@@ -4,6 +4,11 @@ kind: Application
 metadata:
   name: aws-load-balancer-controller
   namespace: argocd
+  labels:
+    teardown.tushar.dev/environment: test
+    teardown.tushar.dev/phase: controllers
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 
 spec:
   project: default

@@ -3,6 +3,12 @@ kind: Application
 metadata:
   name: monitoring
   namespace: argocd
+  labels:
+    teardown.tushar.dev/environment: test
+    teardown.tushar.dev/phase: platform
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
 spec:
   project: default
 
@@ -26,6 +32,11 @@ spec:
     namespace: monitoring
 
   syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        teardown.tushar.dev/environment: test
+        teardown.tushar.dev/disposable: "true"
+
     automated:
       prune: true
       selfHeal: true
