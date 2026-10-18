@@ -1,3 +1,20 @@
+customRules:
+  NodeCPUHighUsage:
+    for: 5m
+    severity: warning
+
+  NodeMemoryHighUtilization:
+    for: 10m
+    severity: warning
+
+  KubeNodeNotReady:
+    for: 5m
+    severity: critical
+
+  KubeNodePressure:
+    for: 5m
+    severity: warning
+
 kubeControllerManager:
   enabled: false
 

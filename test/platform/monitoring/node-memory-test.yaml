@@ -1,0 +1,37 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: node-memory-test
+  namespace: monitoring
+  labels:
+    release: monitoring
+
+spec:
+  groups:
+    - name: node-memory-test
+      rules:
+        - alert: NodeMemoryUsageTest
+          expr: |
+            (
+              100 -
+              (
+                node_memory_MemAvailable_bytes{job="node-exporter"}
+                /
+                node_memory_MemTotal_bytes{job="node-exporter"}
+                * 100
+              )
+            ) > 1
+          for: 1m
+
+          labels:
+            severity: warning
+            project: tushar
+            environment: test
+            test: "true"
+
+          annotations:
+            summary: "TEST: node memory alert on {{ $labels.instance }}"
+            description: >-
+              TEST ONLY. Memory utilization on {{ $labels.instance }}
+              is {{ printf "%.2f" $value }}%.
+              The temporary threshold is 1%; this is not a real incident.

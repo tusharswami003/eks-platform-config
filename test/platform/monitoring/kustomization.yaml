@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - storageclass-gp3.yaml
   - ses-delivery-test.yaml
+  - node-memory-test.yaml
