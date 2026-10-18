@@ -1,3 +1,21 @@
+kubeControllerManager:
+  enabled: false
+
+kubeScheduler:
+  enabled: false
+
+kubeEtcd:
+  enabled: false
+
+defaultRules:
+  create: true
+
+  rules:
+    kubeControllerManager: false
+    kubeSchedulerAlerting: false
+    kubeSchedulerRecording: false
+    etcd: false
+
 grafana:
   enabled: true
 
